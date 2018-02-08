@@ -15,8 +15,7 @@ pipeline:
     when:
       branch: master
       event: tag
-
-
+  
   publish-image:
     image: plugins/docker
     dockerfile: package/Dockerfile
