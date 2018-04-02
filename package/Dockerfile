@@ -10,6 +10,7 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
  && gem install fluent-plugin-splunk-http-eventcollector \
  && gem install fluent-plugin-kafka \
  && gem install fluent-plugin-remote_syslog \
+ && gem install fluent-plugin-rewrite-tag-filter \
  && gem install zookeeper \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
@@ -22,8 +23,12 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
 ENV FLUENTD_CONF="fluent.conf"
 
 RUN mkdir -p /fluentd/etc/buffer
-RUN mkdir -p /fluentd/etc/config
+RUN mkdir -p /fluentd/etc/config/customer/cluster/
+RUN mkdir -p /fluentd/etc/config/customer/project/
+
 COPY fluent.conf /fluentd/etc/
+COPY custom_cluster.conf /fluentd/etc/config/customer/
+COPY custom_project.conf /fluentd/etc/config/customer/
 
 EXPOSE 24224 5140
 
