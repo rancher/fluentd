@@ -23,12 +23,12 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
 ENV FLUENTD_CONF="fluent.conf"
 
 RUN mkdir -p /fluentd/etc/buffer
-RUN mkdir -p /fluentd/etc/config/customer/cluster/
-RUN mkdir -p /fluentd/etc/config/customer/project/
+RUN mkdir -p /fluentd/etc/config/custom/cluster/
+RUN mkdir -p /fluentd/etc/config/custom/project/
 
 COPY fluent.conf /fluentd/etc/
-COPY custom_cluster.conf /fluentd/etc/config/customer/
-COPY custom_project.conf /fluentd/etc/config/customer/
+COPY custom_cluster.conf /fluentd/etc/config/custom/
+COPY custom_project.conf /fluentd/etc/config/custom/
 
 EXPOSE 24224 5140
 
