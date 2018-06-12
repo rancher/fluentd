@@ -1,13 +1,13 @@
-FROM fluent/fluentd:v0.14-debian
+FROM fluent/fluentd:v1.1-debian
 
 RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
+ && echo "gem: --no-ri --no-rdoc" >> ~/.gemrc \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
  && sudo gem install fluent-plugin-elasticsearch \
  && gem install fluent-plugin-secure-forward \
  && gem install fluent-plugin-kubernetes_metadata_filter \
- && gem install fluent-plugin-aws-elasticsearch-service \
- && gem install fluent-plugin-splunk-http-eventcollector \
+ && gem install fluent-plugin-splunk-enterprise \
  && gem install fluent-plugin-kafka \
  && gem install fluent-plugin-remote_syslog \
  && gem install fluent-plugin-rewrite-tag-filter \
