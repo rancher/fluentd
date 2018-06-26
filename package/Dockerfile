@@ -11,6 +11,7 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
  && gem install fluent-plugin-kafka \
  && gem install fluent-plugin-remote_syslog \
  && gem install fluent-plugin-rewrite-tag-filter \
+ && gem install fluent-plugin-prometheus \
  && gem install zookeeper \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
@@ -25,10 +26,12 @@ ENV FLUENTD_CONF="fluent.conf"
 RUN mkdir -p /fluentd/etc/buffer
 RUN mkdir -p /fluentd/etc/config/custom/cluster/
 RUN mkdir -p /fluentd/etc/config/custom/project/
+RUN mkdir -p /fluentd/etc/config/system/
 
 COPY fluent.conf /fluentd/etc/
 COPY custom_cluster.conf /fluentd/etc/config/custom/
 COPY custom_project.conf /fluentd/etc/config/custom/
+COPY metrics.conf /fluentd/etc/config/system/
 
 EXPOSE 24224 5140
 
