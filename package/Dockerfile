@@ -9,7 +9,7 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
  && gem install fluent-plugin-kubernetes_metadata_filter \
  && gem install fluent-plugin-splunk-enterprise \
  && gem install fluent-plugin-kafka \
- && gem install fluent-plugin-remote_syslog \
+ && gem install fluent-plugin-remote_syslog_tls \ 
  && gem install fluent-plugin-rewrite-tag-filter \
  && gem install fluent-plugin-prometheus \
  && gem install zookeeper \
