@@ -6,7 +6,7 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
  && apt-get install -y --no-install-recommends $buildDeps \
  && sudo gem install fluent-plugin-elasticsearch \
  && gem install fluent-plugin-secure-forward \
- && gem install fluent-plugin-kubernetes_metadata_filter \
+ && gem install fluent-plugin-kubernetes_metadata_filter -v 2.0.0 \
  && gem install fluent-plugin-splunk-enterprise \
  && gem install fluent-plugin-kafka \
  && gem install fluent-plugin-remote_syslog_tls \ 
