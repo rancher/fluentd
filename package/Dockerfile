@@ -4,15 +4,14 @@ RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
  && echo "gem: --no-ri --no-rdoc" >> ~/.gemrc \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
- && sudo gem install fluent-plugin-elasticsearch \
- && gem install fluent-plugin-secure-forward \
- && gem install fluent-plugin-kubernetes_metadata_filter \
- && gem install fluent-plugin-splunk-enterprise \
- && gem install fluent-plugin-kafka \
- && gem install fluent-plugin-remote_syslog_tls \ 
- && gem install fluent-plugin-rewrite-tag-filter \
- && gem install fluent-plugin-prometheus \
- && gem install zookeeper \
+ && sudo gem install fluent-plugin-elasticsearch -v 2.11.10 \
+ && gem install fluent-plugin-kubernetes_metadata_filter -v 2.0.0 \
+ && gem install fluent-plugin-splunk-enterprise -v 0.9.1 \
+ && gem install fluent-plugin-kafka -v 0.7.9 \
+ && gem install fluent-plugin-remote_syslog_tls -v 1.0.2 \ 
+ && gem install fluent-plugin-rewrite-tag-filter -v 2.1.0 \
+ && gem install fluent-plugin-prometheus -v 1.1.0 \
+ && gem install zookeeper -v 1.4.11 \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
