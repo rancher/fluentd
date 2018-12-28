@@ -12,6 +12,11 @@ Customized fluentd images, install elasticsearch, splunk, kafka, syslog plugin
 
 `./bin/fluentd`
 
+## References
+
+-	**Dockerfile**:  
+	We are currently using the fluentd dockerfile from [Kubernetes repo](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch/fluentd-es-image). And base on that file, we install extra build dependency, upgrade the fluentd version to v1.3.1 and customize the Gemfile as we needed
+
 ## License
 Copyright (c) 2018 [Rancher Labs, Inc.](http://rancher.com)
 

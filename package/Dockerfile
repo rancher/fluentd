@@ -1,37 +1,59 @@
-FROM fluent/fluentd:v1.1-debian
+# Copyright 2017 The Kubernetes Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-RUN buildDeps="sudo build-essential libc-dev ruby-dev" \
- && echo "gem: --no-ri --no-rdoc" >> ~/.gemrc \
- && apt-get update \
- && apt-get install -y --no-install-recommends $buildDeps \
- && sudo gem install fluent-plugin-elasticsearch -v 2.11.10 \
- && gem install fluent-plugin-kubernetes_metadata_filter -v 2.0.0 \
- && gem install fluent-plugin-splunk-enterprise -v 0.9.1 \
- && gem install fluent-plugin-kafka -v 0.7.9 \
- && gem install fluent-plugin-remote_syslog_tls -v 1.0.2 \ 
- && gem install fluent-plugin-rewrite-tag-filter -v 2.1.0 \
- && gem install fluent-plugin-prometheus -v 1.1.0 \
- && gem install zookeeper -v 1.4.11 \
- && sudo gem sources --clear-all \
- && SUDO_FORCE_REMOVE=yes \
-    apt-get purge -y --auto-remove \
-                  -o APT::AutoRemove::RecommendsImportant=false \
-                  $buildDeps \
- && rm -rf /var/lib/apt/lists/* \
-           /home/fluent/.gem/ruby/2.3.0/cache/*.gem
+# This Dockerfile will build an image that is configured
+# to run Fluentd with an Genfile plug-in and the
+# provided configuration file.
+# The image acts as an executable for the binary /usr/sbin/td-agent.
+# Note that fluentd is run with root permssion to allow access to
+# log files with root only access under /var/log/containers/*
 
-ENV FLUENTD_CONF="fluent.conf"
+FROM debian:stretch-slim
 
-RUN mkdir -p /fluentd/etc/buffer
-RUN mkdir -p /fluentd/etc/config/custom/cluster/
-RUN mkdir -p /fluentd/etc/config/custom/project/
-RUN mkdir -p /fluentd/etc/config/system/
+ARG DEBIAN_FRONTEND=noninteractive
 
-COPY fluent.conf /fluentd/etc/
-COPY custom_cluster.conf /fluentd/etc/config/custom/
-COPY custom_project.conf /fluentd/etc/config/custom/
-COPY metrics.conf /fluentd/etc/config/system/
+COPY clean-apt /usr/bin
+COPY clean-install /usr/bin
+COPY Gemfile /Gemfile
 
-EXPOSE 24224 5140
+# 1. Install & configure dependencies.
+# 2. Install fluentd via ruby.
+# 3. Remove build dependencies.
+# 4. Cleanup leftover caches & files.
+# RUN BUILD_DEPS="make gcc g++ libc6-dev ruby-dev libffi-dev" \
+RUN BUILD_DEPS="make ruby-dev build-essential autoconf automake libtool libsnappy-dev" \
+    && clean-install $BUILD_DEPS \
+                     ca-certificates \
+                     libjemalloc1 \
+                     ruby \
+    && echo 'gem: --no-document' >> /etc/gemrc \
+    && gem install --file Gemfile \
+    && apt-get purge -y --auto-remove \
+                     -o APT::AutoRemove::RecommendsImportant=false \
+                     $BUILD_DEPS \
+    && clean-apt \
+    # Ensure fluent has enough file descriptors
+    && ulimit -n 65536
 
-CMD exec fluentd -c /fluentd/etc/${FLUENTD_CONF}
+# Copy the Fluentd configuration file for logging Docker container logs.
+COPY fluent.conf /etc/fluent/fluent.conf
+COPY run.sh /run.sh
+
+# Expose prometheus metrics.
+EXPOSE 80
+
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.1
+
+# Start Fluentd to pick up our config that watches Docker container logs.
+CMD /run.sh $FLUENTD_ARGS
