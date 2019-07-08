@@ -1,0 +1,166 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.2.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    addressable (2.6.0)
+      public_suffix (>= 2.0.2, < 4.0)
+    concurrent-ruby (1.1.5)
+    cool.io (1.5.4-x64-mingw32)
+    dig_rb (1.0.1)
+    digest-crc (0.4.1)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    elasticsearch (7.3.0)
+      elasticsearch-api (= 7.3.0)
+      elasticsearch-transport (= 7.3.0)
+    elasticsearch-api (7.3.0)
+      multi_json
+    elasticsearch-transport (7.3.0)
+      faraday
+      multi_json
+    excon (0.66.0)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
+    ffi (1.11.1-x64-mingw32)
+    ffi-win32-extensions (1.0.3)
+      ffi
+    fluent-config-regexp-type (1.0.0)
+      fluentd (> 1.0.0, < 2)
+    fluent-plugin-elasticsearch (3.5.4)
+      elasticsearch
+      excon
+      fluentd (>= 0.14.22)
+    fluent-plugin-kafka (0.11.0)
+      fluentd (>= 0.10.58, < 2)
+      ltsv
+      ruby-kafka (>= 0.7.8, < 0.8.0)
+    fluent-plugin-kubernetes_metadata_filter (2.2.0)
+      fluentd (>= 0.14.0, < 2)
+      kubeclient (~> 1.1.4)
+      lru_redux
+    fluent-plugin-prometheus (1.5.0)
+      fluentd (>= 0.14.20, < 2)
+      prometheus-client
+    fluent-plugin-remote_syslog_tls (1.0.2)
+      fluentd
+      remote_syslog_sender_tls (>= 1.2.5)
+    fluent-plugin-rewrite-tag-filter (2.2.0)
+      fluent-config-regexp-type
+      fluentd (>= 0.14.2, < 2)
+    fluent-plugin-splunk-enterprise (0.10.0)
+      fluentd (>= 0.12.0)
+      httpclient
+      json
+    fluentd (1.6.3-x64-mingw32)
+      cool.io (>= 1.4.5, < 2.0.0)
+      dig_rb (~> 1.0.0)
+      http_parser.rb (>= 0.5.1, < 0.7.0)
+      msgpack (>= 0.7.0, < 2.0.0)
+      serverengine (>= 2.0.4, < 3.0.0)
+      sigdump (~> 0.2.2)
+      strptime (>= 0.2.2, < 1.0.0)
+      tzinfo (~> 1.0)
+      tzinfo-data (~> 1.0)
+      win32-event (~> 0.6.1)
+      win32-ipc (~> 0.6.1)
+      win32-service (~> 0.8.3)
+      windows-pr (~> 1.2.5)
+      yajl-ruby (~> 1.0)
+    http (0.9.8)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 1.0.1)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    http-form_data (1.0.3)
+    http_parser.rb (0.6.0)
+    httpclient (2.8.3)
+    i18n (1.6.0)
+      concurrent-ruby (~> 1.0)
+    json (2.2.0)
+    kubeclient (1.1.4)
+      activesupport
+      http (= 0.9.8)
+      recursive-open-struct (= 1.0.0)
+      rest-client
+    lru_redux (1.1.0)
+    ltsv (0.1.2)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2019.0331)
+    minitest (5.11.3)
+    msgpack (1.3.1-x64-mingw32)
+    multi_json (1.13.1)
+    multipart-post (2.1.1)
+    netrc (0.11.0)
+    oj (3.8.1)
+    prometheus-client (0.9.0)
+      quantile (~> 0.2.1)
+    public_suffix (3.1.1)
+    quantile (0.2.1)
+    recursive-open-struct (1.0.0)
+    remote_syslog_sender_tls (1.2.5)
+      syslog_protocol
+    rest-client (2.0.2-x64-mingw32)
+      ffi (~> 1.9)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    ruby-kafka (0.7.10)
+      digest-crc
+    serverengine (2.1.1-x64-mingw32)
+      sigdump (~> 0.2.2)
+      windows-pr (~> 1.2.5)
+    sigdump (0.2.4)
+    strptime (0.2.3)
+    syslog_protocol (0.9.2)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    tzinfo-data (1.2019.2)
+      tzinfo (>= 1.0.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.6)
+    win32-api (1.8.0-universal-mingw32)
+    win32-event (0.6.3)
+      win32-ipc (>= 0.6.0)
+    win32-ipc (0.6.6)
+      ffi
+    win32-service (0.8.10)
+      ffi
+      ffi-win32-extensions
+    windows-api (0.4.4)
+      win32-api (>= 1.4.5)
+    windows-pr (1.2.6)
+      win32-api (>= 1.4.5)
+      windows-api (>= 0.4.0)
+    yajl-ruby (1.4.1)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  cool.io
+  fluent-plugin-elasticsearch
+  fluent-plugin-kafka
+  fluent-plugin-kubernetes_metadata_filter
+  fluent-plugin-prometheus
+  fluent-plugin-remote_syslog_tls
+  fluent-plugin-rewrite-tag-filter
+  fluent-plugin-splunk-enterprise
+  fluentd
+  json
+  oj
+  win32-event
+  win32-ipc
+  win32-service
+  windows-pr
+
+BUNDLED WITH
+   2.0.2
