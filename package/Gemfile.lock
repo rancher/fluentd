@@ -120,10 +120,31 @@ GEM
     yajl-ruby (1.4.1)
     zookeeper (1.4.11)
 
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-eventstream (1.0.3)
+    aws-partitions (1.186.0)
+    aws-sdk-cloudwatchlogs (1.23.0)
+      aws-sdk-core (~> 3, >= 3.58.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-core (3.59.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+    fluent-plugin-cloudwatch-logs (0.7.3)
+      aws-sdk-cloudwatchlogs (~> 1.0)
+      fluentd (>= 0.14.15)
+    jmespath (1.4.0)
+
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  fluent-plugin-cloudwatch-logs (~> 0.7.3)
   fluent-plugin-elasticsearch (~> 2.12.3)
   fluent-plugin-kafka (~> 0.8.1)
   fluent-plugin-kubernetes_metadata_filter (~> 2.0.0)
