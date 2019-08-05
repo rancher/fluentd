@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+source ./scripts/version
+
+outputGemfileLockPath=./package/Gemfile.lock
+mountDir=$(pwd)/dist/gemfiles
+
+
+ARCH=${ARCH:-"amd64"}
+SUFFIX=""
+[ "${ARCH}" != "amd64" ] && SUFFIX="_${ARCH}"
+
+TAG=${TAG:-${VERSION}${SUFFIX}}
+REPO=${REPO:-rancher}
+
+if echo $TAG | grep -q dirty; then
+    TAG=dev
+fi
+
+IMAGE=${REPO}/fluentd:${TAG}
+
+docker run -it -v $mountDir:/gems ${IMAGE} /upgrade-gems.sh
+cp $mountDir/Gemfile.lock $outputGemfileLockPath
