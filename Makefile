@@ -10,6 +10,10 @@ TARGETS := $(shell ls scripts)
 $(TARGETS): .dapper
 	./.dapper $@
 
+upgrade-gems: .dapper
+	@./.dapper ci
+	@./scripts/upgrade-gems
+
 trash: .dapper
 	./.dapper -m bind trash
 

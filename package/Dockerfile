@@ -26,6 +26,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY clean-apt /usr/bin
 COPY clean-install /usr/bin
 COPY Gemfile /Gemfile
+COPY Gemfile.lock /Gemfile.lock
 
 # 1. Install & configure dependencies.
 # 2. Install fluentd via ruby.
@@ -38,7 +39,8 @@ RUN BUILD_DEPS="make ruby-dev build-essential autoconf automake libtool libsnapp
                      libjemalloc1 \
                      ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
-    && gem install --file Gemfile \
+    && gem install bundle -v 0.0.1 \
+    && bundle install \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
                      $BUILD_DEPS \
@@ -49,6 +51,7 @@ RUN BUILD_DEPS="make ruby-dev build-essential autoconf automake libtool libsnapp
 # Copy the Fluentd configuration file for logging Docker container logs.
 COPY fluent.conf /etc/fluent/fluent.conf
 COPY run.sh /run.sh
+COPY upgrade-gems.sh /upgrade-gems.sh
 
 # Expose prometheus metrics.
 EXPOSE 80
