@@ -30,6 +30,8 @@ GEM
       ffi
     fluent-config-regexp-type (1.0.0)
       fluentd (> 1.0.0, < 2)
+    fluent-plugin-concat (2.4.0)
+      fluentd (>= 0.14.0, < 2)
     fluent-plugin-elasticsearch (3.5.4)
       elasticsearch
       excon
@@ -147,6 +149,7 @@ PLATFORMS
 
 DEPENDENCIES
   cool.io
+  fluent-plugin-concat
   fluent-plugin-elasticsearch
   fluent-plugin-kafka
   fluent-plugin-kubernetes_metadata_filter

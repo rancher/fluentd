@@ -21,4 +21,5 @@ gem 'fluent-plugin-kubernetes_metadata_filter'
 gem 'fluent-plugin-remote_syslog_tls'
 
 # filter plugins
+gem 'fluent-plugin-concat'
 gem 'fluent-plugin-rewrite-tag-filter'
