@@ -8,37 +8,37 @@ platform:
 
 steps:
 - name: build
-  image: rancher/dapper:1.11.2
+  image: rancher/dapper:v0.4.2
+  commands:
+  - dapper ci
   privileged: true
   volumes:
   - name: docker
     path: /var/run/docker.sock
-  commands:
-  - dapper ci
   when:
     event:
-      - push
-      - pull_request
-      - tag
+    - push
+    - pull_request
+    - tag
 
 - name: docker-publish
   image: plugins/docker
   settings:
     context: package/
     dockerfile: package/Dockerfile
-    tag: ${DRONE_TAG}-linux-amd64
     password:
       from_secret: docker_password
     repo: rancher/fluentd
+    tag: ${DRONE_TAG}-linux-amd64
     username:
       from_secret: docker_username
     when:
-      ref:
-        include:
-        - "refs/heads/master"
-        - "refs/heads/tags/*"
       event:
       - tag
+      ref:
+        include:
+        - refs/heads/master
+        - refs/heads/tags/*
 
 ---
 kind: pipeline
@@ -54,23 +54,23 @@ steps:
   pull: always
   image: maiwj/dapper:windows-1903
   commands:
-    - dapper.exe -f Dockerfile-windows.dapper -d ci
+  - dapper.exe -f Dockerfile-windows.dapper -d ci
   volumes:
-    - name: docker_pipe
-      path: \\\\.\\pipe\\docker_engine
+  - name: docker_pipe
+    path: \\\\.\\pipe\\docker_engine
   when:
     event:
-      - push
-      - pull_request
-      - tag
+    - push
+    - pull_request
+    - tag
 
 - name: docker-publish
   image: plugins/docker
   settings:
     build_args:
-      - SERVERCORE_VERSION=1903
-      - ARCH=amd64
-      - VERSION=${DRONE_TAG}
+    - SERVERCORE_VERSION=1903
+    - ARCH=amd64
+    - VERSION=${DRONE_TAG}
     context: package/windows
     custom_dns: 1.1.1.1
     dockerfile: package/windows/Dockerfile
@@ -81,15 +81,14 @@ steps:
     username:
       from_secret: docker_username
   volumes:
-    - name: docker_pipe
-      path: \\\\.\\pipe\\docker_engine
+  - name: docker_pipe
+    path: \\\\.\\pipe\\docker_engine
   when:
-    ref:
-      include:
-      - "refs/heads/master"
-      - "refs/heads/tags/*"
     event:
     - tag
+    ref:
+    - refs/heads/master
+    - refs/heads/tags/*
 
 - name: slack_notify
   image: plugins/slack
@@ -101,21 +100,21 @@ steps:
   when:
     event:
       exclude:
-        - pull_request
+      - pull_request
     instance:
-      - drone-publish.rancher.io
+    - drone-publish.rancher.io
     status:
-      - failure
+    - failure
 
 volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
+- name: docker_pipe
+  host:
+    path: \\\\.\\pipe\\docker_engine
 
 trigger:
   event:
     exclude:
-      - promote
+    - promote
 
 ---
 kind: pipeline
@@ -131,23 +130,23 @@ steps:
   pull: always
   image: maiwj/dapper:windows-1809
   commands:
-    - dapper.exe -f Dockerfile-windows.dapper -d ci
+  - dapper.exe -f Dockerfile-windows.dapper -d ci
   volumes:
-    - name: docker_pipe
-      path: \\\\.\\pipe\\docker_engine
+  - name: docker_pipe
+    path: \\\\.\\pipe\\docker_engine
   when:
     event:
-      - push
-      - pull_request
-      - tag
+    - push
+    - pull_request
+    - tag
 
 - name: docker-publish
   image: plugins/docker
   settings:
     build_args:
-      - SERVERCORE_VERSION=1809
-      - ARCH=amd64
-      - VERSION=${DRONE_TAG}
+    - SERVERCORE_VERSION=1809
+    - ARCH=amd64
+    - VERSION=${DRONE_TAG}
     context: package/windows
     custom_dns: 1.1.1.1
     dockerfile: package/windows/Dockerfile
@@ -158,15 +157,14 @@ steps:
     username:
       from_secret: docker_username
   volumes:
-    - name: docker_pipe
-      path: \\\\.\\pipe\\docker_engine
+  - name: docker_pipe
+    path: \\\\.\\pipe\\docker_engine
   when:
-    ref:
-      include:
-      - "refs/heads/master"
-      - "refs/heads/tags/*"
     event:
     - tag
+    ref:
+    - refs/heads/master
+    - refs/heads/tags/*
 
 - name: slack_notify
   image: plugins/slack
@@ -178,35 +176,40 @@ steps:
   when:
     event:
       exclude:
-        - pull_request
+      - pull_request
     instance:
-      - drone-publish.rancher.io
+    - drone-publish.rancher.io
     status:
-      - failure
+    - failure
 
 volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
+- name: docker_pipe
+  host:
+    path: \\\\.\\pipe\\docker_engine
 
 trigger:
   event:
     exclude:
-      - promote
+    - promote
+
 ---
 kind: pipeline
 name: manifest
+
+platform:
+  os: linux
+  arch: amd64
 
 steps:
 - name: push-manifest
   image: plugins/manifest:1.1.0
   settings:
-    username:
-      from_secret: docker_username
+    ignore_missing: true
     password:
       from_secret: docker_password
     spec: manifest.tmpl
-    ignore_missing: true
+    username:
+      from_secret: docker_username
   when:
     event:
     - tag
@@ -223,10 +226,9 @@ steps:
       exclude:
       - pull_request
     instance:
-      include:
-      - drone-publish.rancher.io
+    - drone-publish.rancher.io
     status:
-      - failure
+    - failure
 
 volumes:
 - name: docker
@@ -242,4 +244,5 @@ depends_on:
 - default-linux-amd64
 - default-windows-1809
 - default-windows-1903
----
+
+...
