@@ -13,7 +13,7 @@ steps:
   - dapper ci
   privileged: true
   volumes:
-  - name: docker
+  - name: socket
     path: /var/run/docker.sock
   when:
     event:
@@ -24,7 +24,6 @@ steps:
 - name: docker-publish
   image: plugins/docker
   settings:
-    context: package/
     dockerfile: package/Dockerfile
     password:
       from_secret: docker_password
@@ -32,13 +31,24 @@ steps:
     tag: ${DRONE_TAG}-linux-amd64
     username:
       from_secret: docker_username
-    when:
-      event:
-      - tag
-      ref:
-        include:
-        - refs/heads/master
-        - refs/heads/tags/*
+  when:
+    instance:
+    - drone-publish.rancher.io
+    ref:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
+
+volumes:
+- name: socket
+  host:
+    path: /var/run/docker.sock
+
+trigger:
+  event:
+    exclude:
+    - promote
 
 ---
 kind: pipeline
@@ -88,7 +98,7 @@ steps:
     - tag
     ref:
     - refs/heads/master
-    - refs/heads/tags/*
+    - refs/tags/*
 
 - name: slack_notify
   image: plugins/slack
@@ -164,7 +174,7 @@ steps:
     - tag
     ref:
     - refs/heads/master
-    - refs/heads/tags/*
+    - refs/tags/*
 
 - name: slack_notify
   image: plugins/slack
@@ -229,11 +239,6 @@ steps:
     - drone-publish.rancher.io
     status:
     - failure
-
-volumes:
-- name: docker
-  host:
-    path: /var/run/docker.sock
 
 trigger:
   event:
