@@ -24,6 +24,7 @@ steps:
 - name: docker-publish
   image: plugins/docker
   settings:
+    context: package/
     dockerfile: package/Dockerfile
     password:
       from_secret: docker_password
