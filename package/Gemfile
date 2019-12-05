@@ -8,6 +8,7 @@ gem 'fluentd'
 
 # Input / Output plugins:
 gem 'fluent-plugin-elasticsearch'
+gem 'fluent-plugin-logzio'
 gem 'fluent-plugin-prometheus'
 gem 'fluent-plugin-splunk-enterprise'
 gem 'fluent-plugin-kafka'
