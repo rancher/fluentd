@@ -17,7 +17,7 @@ GEM
     elasticsearch-transport (7.3.0)
       faraday
       multi_json
-    excon (0.66.0)
+    excon (0.71.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     fluent-config-regexp-type (1.0.0)
