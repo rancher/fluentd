@@ -9,7 +9,7 @@ Customized fluentd images, install elasticsearch, splunk, kafka, syslog plugin
 
 
 ## Running
-
+s
 `./bin/fluentd`
 
 ## References
