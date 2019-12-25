@@ -39,7 +39,7 @@ RUN BUILD_DEPS="make ruby-dev build-essential autoconf automake libtool libsnapp
                      libjemalloc1 \
                      ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
-    && gem install bundle -v 0.0.1 \
+    && gem install bundler \
     && bundle install \
     && apt-get purge -y --auto-remove \
                      -o APT::AutoRemove::RecommendsImportant=false \
