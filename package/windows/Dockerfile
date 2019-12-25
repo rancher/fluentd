@@ -21,7 +21,7 @@ RUN gem install bundler \
 && bundle config build.certstore_c --with-cflags="-Wno-attributes" \
 && bundle config build.yajl-ruby --with-cflags="-Wno-attributes" \
 && bundle config build.oj --with-cflags="-Wno-attributes" \
-&& bundle install --gemfile='C:\fluentd\install\Gemfile' \
+&& bundle install --gemfile='C:\fluentd\install\Gemfile'
 
 RUN gem sources --clear-all
 
