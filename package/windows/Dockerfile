@@ -17,6 +17,9 @@ RUN choco install -y ruby --version 2.4.2.2 --params "'/InstallDir:C:\'" \
 && ridk install 2 3 \
 && echo gem: --no-document >> C:\ProgramData\gemrc \
 && gem install bundle -v 0.0.1 \
+&& bundle config build.certstore_c --with-cflags="-Wno-attributes" \
+&& bundle config build.yajl-ruby --with-cflags="-Wno-attributes" \
+&& bundle config build.oj --with-cflags="-Wno-attributes" \
 && bundle install --gemfile='C:\fluentd\install\Gemfile' \
 && gem sources --clear-all
 
