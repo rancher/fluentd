@@ -15,8 +15,8 @@ RUN choco install -y ruby --version 2.6.5.1 --params "'/InstallDir:C:\ruby26'" \
 RUN refreshenv \
 && ridk install 2 3 \
 && echo gem: --no-document >> C:\ProgramData\gemrc \
-&& gem install cool.io -v 1.5.4 --platform ruby \
 && gem install bundler \
+&& bundle config.cool.io force_ruby_platform true \
 && bundle install --gemfile='C:\fluentd\install\Gemfile' \
 && gem sources --clear-all
 
