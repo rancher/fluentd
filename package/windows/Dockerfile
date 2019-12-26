@@ -16,7 +16,7 @@ RUN refreshenv \
 && ridk install 2 3 \
 && echo gem: --no-document >> C:\ProgramData\gemrc \
 && gem install bundler \
-&& bundle config.cool.io force_ruby_platform true \
+&& bundle config build.cool.io force_ruby_platform true \
 && bundle install --gemfile='C:\fluentd\install\Gemfile' \
 && gem sources --clear-all
 
