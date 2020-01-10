@@ -19,6 +19,7 @@ gem 'fluent-plugin-splunk-enterprise'
 gem 'fluent-plugin-kafka'
 gem 'fluent-plugin-kubernetes_metadata_filter'
 gem 'fluent-plugin-remote_syslog_tls'
+gem 'fluent-plugin-gelf-hs'
 
 # filter plugins
 gem 'fluent-plugin-concat'
