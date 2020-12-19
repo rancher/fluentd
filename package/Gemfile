@@ -6,7 +6,7 @@ gem 'json', '2.3.0'
 
 gem 'fluentd', '1.8.0'
 
-gem 'fluent-plugin-elasticsearch', '7.4.0'
+gem 'fluent-plugin-elasticsearch', '3.8.0'
 gem 'fluent-plugin-prometheus', '1.7.0'
 gem 'fluent-plugin-splunk-enterprise', '0.10.0'
 gem 'fluent-plugin-kafka', '0.12.1'
