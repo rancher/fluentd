@@ -1,23 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'cool.io'
-gem 'oj'
-gem 'json'
+gem 'cool.io', '1.5.4'
+gem 'oj', '3.10.0'
+gem 'json', '2.3.0'
 
-gem 'fluentd'
+gem 'fluentd', '1.8.0'
 
-# Input / Output plugins:
-gem 'fluent-plugin-elasticsearch'
-gem 'fluent-plugin-prometheus'
-gem 'fluent-plugin-splunk-enterprise'
-gem 'fluent-plugin-kafka'
-gem 'fluent-plugin-kubernetes_metadata_filter'
-gem 'fluent-plugin-remote_syslog_tls'
+gem 'fluent-plugin-elasticsearch', '7.4.0'
+gem 'fluent-plugin-prometheus', '1.7.0'
+gem 'fluent-plugin-splunk-enterprise', '0.10.0'
+gem 'fluent-plugin-kafka', '0.12.1'
+gem 'fluent-plugin-kubernetes_metadata_filter', '~>2.5.0'
+gem 'fluent-plugin-remote_syslog_tls', '1.0.2'
 
 # filter plugins
-gem 'fluent-plugin-concat'
-gem 'fluent-plugin-rewrite-tag-filter'
-gem 'fluent-plugin-multi-format-parser'
+gem 'fluent-plugin-concat', '2.4.0'
+gem 'fluent-plugin-rewrite-tag-filter', '2.2.0'
+gem 'fluent-plugin-multi-format-parser', '1.0.0'
 
-# third party
-gem 'zookeeper'
+gem 'zookeeper', '1.4.11'
