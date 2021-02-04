@@ -309,7 +309,7 @@ steps:
         - tag
 
   - name: docker-publish
-    image: plugins/docker
+    image: luthermonson/drone-docker:2004
     settings:
       build_args:
         - SERVERCORE_VERSION=2004
@@ -391,7 +391,7 @@ steps:
         - tag
 
   - name: docker-publish
-    image: plugins/docker
+    image: luthermonson/drone-docker:20H2
     settings:
       build_args:
         - SERVERCORE_VERSION=20H2
