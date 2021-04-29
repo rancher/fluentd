@@ -1,4 +1,4 @@
-FROM ubuntu:groovy-20210325
+FROM ubuntu:20.10
 # FROM arm=armhf/ubuntu:16.04
 
 ARG DAPPER_HOST_ARCH
