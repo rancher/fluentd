@@ -19,7 +19,7 @@
 # Note that fluentd is run with root permssion to allow access to
 # log files with root only access under /var/log/containers/*
 
-FROM debian:stretch-slim
+FROM debian:buster-20210329-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
