@@ -22,16 +22,15 @@ steps:
     - tag
 
 - name: docker-publish
-  image: plugins/docker
-  settings:
-    context: package/
-    dockerfile: package/Dockerfile
-    username:
-      from_secret: docker_username
-    password:
+  image: rancher/dapper:v0.5.6
+  commands:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker image push rancher/fluentd:${DRONE_TAG}-linux-amd64
+  environment:
+    DOCKER_PASSWORD:
       from_secret: docker_password
-    repo: rancher/fluentd
-    tag: ${DRONE_TAG}-linux-amd64
+    DOCKER_USERNAME:
+      from_secret: docker_username
   when:
     instance:
     - drone-publish.rancher.io
