@@ -26,6 +26,9 @@ steps:
   commands:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker image push rancher/fluentd:${DRONE_TAG}-linux-amd64
+  volumes:
+    - name: socket
+      path: /var/run/docker.sock
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
