@@ -25,7 +25,8 @@ steps:
   image: rancher/dapper:v0.5.6
   commands:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - docker image push rancher/fluentd:${DRONE_TAG}-linux-amd64
+    - docker image tag "rancher/fluentd:${DRONE_TAG}" "rancher/fluentd:${DRONE_TAG}-linux-amd64"
+    - docker image push "rancher/fluentd:${DRONE_TAG}-linux-amd64"
   volumes:
     - name: socket
       path: /var/run/docker.sock
