@@ -14,10 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# These steps must be executed once the host /var and /lib volumes have
-# been mounted, and therefore cannot be done in the docker build stage.
+# A script encapsulating a common Dockerimage pattern for installing packages
+# and then cleaning up the unnecessary install artifacts.
+# e.g. clean-install iptables ebtables conntrack
 
-# For systems without journald
-mkdir -p /var/log/journal
+set -o errexit
 
-exec /usr/local/bin/fluentd $@
+if [ $# = 0 ]; then
+  echo >&2 "No packages specified"
+  exit 1
+fi
+
+apt-get update
+apt-get install -y --no-install-recommends $@
+clean-apt
+
