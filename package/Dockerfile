@@ -19,19 +19,28 @@
 # Note that fluentd is run with root permssion to allow access to
 # log files with root only access under /var/log/containers/*
 
-FROM alpine:3.14
+FROM debian:stable-20210816-slim
 
+ARG DEBIAN_FRONTEND=noninteractive
+
+COPY clean-apt /usr/bin
+COPY clean-install /usr/bin
 COPY Gemfile /Gemfile
 COPY Gemfile.lock /Gemfile.lock
 
-RUN apk update \
-    && apk add --no-cache ca-certificates ruby ruby-dev ruby-irb ruby-etc ruby-webrick build-base \
+RUN BUILD_DEPS="make ruby-dev build-essential autoconf automake libtool libsnappy-dev" \
+    && clean-install $BUILD_DEPS \
+                     ca-certificates \
+                     ruby \
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install bundler \
-    && bundle install \
+    && CFLAGS=-Wno-error=format-overflow bundle install \
+    && apt-get purge -y --auto-remove \
+                     -o APT::AutoRemove::RecommendsImportant=false \
+                     $BUILD_DEPS \
+    && clean-apt \
     # Ensure fluent has enough file descriptors
     && ulimit -n 65536 \
-    && apk del build-base \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem /usr/lib/ruby/gems/2.*/gems/fluentd-*/test \
     # Remove file due to red herring: https://github.com/fluent/fluentd/issues/3374#issuecomment-840916184
     && rm -f /usr/lib/ruby/gems/2.7.0/gems/http_parser.rb-0.6.0/Gemfile.lock
