@@ -5,7 +5,7 @@ Invoke-Expression -Command "$PSScriptRoot\get-image.ps1"
 
 $DIR_PATH = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $SRC_PATH = (Resolve-Path "$DIR_PATH\..\..").Path
-cd $SRC_PATH\package\windows
+Set-Location -Path $SRC_PATH\package\windows
 
 $ARCH = $env:ARCH
 $TAG = $env:TAG
@@ -32,4 +32,4 @@ if ($RELEASE_ID -eq $HOST_RELEASE_ID) {
 
 $DIST_PATH = "$SRC_PATH\dist\"
 $null = New-Item -Type Directory -Path $DIST_PATH -ErrorAction Ignore
-echo $IMAGE > "$DIST_PATH\images"
+Write-Output $IMAGE > "$DIST_PATH\images"
