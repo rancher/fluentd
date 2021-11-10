@@ -8,7 +8,7 @@ platform:
 
 steps:
 - name: build
-  image: rancher/dapper:v0.5.6
+  image: rancher/dapper:v0.5.7
   commands:
   - dapper ci
   privileged: true
@@ -22,7 +22,7 @@ steps:
     - tag
 
 - name: docker-publish
-  image: rancher/dapper:v0.5.6
+  image: rancher/dapper:v0.5.7
   commands:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker image tag "rancher/fluentd:${DRONE_TAG}" "rancher/fluentd:${DRONE_TAG}-linux-amd64"
@@ -66,7 +66,7 @@ platform:
 steps:
   - name: build
     pull: always
-    image: rancher/dapper:v0.5.6
+    image: rancher/dapper:v0.5.7
     commands:
       - dapper.exe -f Dockerfile-windows.dapper -d ci
     volumes:
@@ -131,90 +131,6 @@ trigger:
       - promote
 ---
 kind: pipeline
-name: windows-2004
-
-platform:
-  os: windows
-  arch: amd64
-  version: 2004
-
-# remove this and use upstream images when https://github.com/drone/drone-git/pull/25 is merged
-clone:
-  disable: true
-
-steps:
-  - name: clone
-    image: rancher/drone-images:git-2004
-    settings:
-      depth: 20
-  - name: build
-    pull: always
-    image: rancher/dapper:v0.5.6
-    commands:
-      - dapper.exe -f Dockerfile-windows.dapper -d ci
-    volumes:
-      - name: docker_pipe
-        path: \\\\.\\pipe\\docker_engine
-    when:
-      event:
-        - push
-        - pull_request
-        - tag
-
-  - name: docker-publish
-    image: rancher/drone-images:docker-2004
-    settings:
-      build_args:
-        - SERVERCORE_VERSION=2004
-        - ARCH=amd64
-        - VERSION=${DRONE_TAG}
-      context: package/windows
-      custom_dns: 1.1.1.1
-      dockerfile: package/windows/Dockerfile
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      repo: rancher/fluentd
-      tag: ${DRONE_TAG}-windows-2004
-    volumes:
-      - name: docker_pipe
-        path: \\\\.\\pipe\\docker_engine
-    when:
-      event:
-        - tag
-      ref:
-        - refs/heads/master
-        - refs/tags/*
-
-  - name: slack_notify
-    image: plugins/slack
-    settings:
-      template: "Build {{build.link}} failed to publish an image/artifact.\n"
-      username: Drone_Publish
-      webhook:
-        from_secret: slack_webhook
-    when:
-      event:
-        exclude:
-          - pull_request
-      instance:
-        - drone-publish.rancher.io
-      status:
-        - failure
-
-volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
-
-trigger:
-  event:
-    exclude:
-      - promote
-
----
-kind: pipeline
 name: windows-20H2
 
 platform:
@@ -233,7 +149,7 @@ steps:
       depth: 20
   - name: build
     pull: always
-    image: rancher/dapper:v0.5.6
+    image: rancher/dapper:v0.5.7
     commands:
       - dapper.exe -f Dockerfile-windows.dapper -d ci
     volumes:
@@ -339,5 +255,4 @@ trigger:
 depends_on:
 - linux-amd64
 - windows-1809
-- windows-2004
 - windows-20H2
